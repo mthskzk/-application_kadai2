@@ -17,12 +17,50 @@
           </td>
           <td><%= link_to @book.title, @book %></td>
           <td><%= @book.body %></td>
+          <!--いいね機能-->
+          <% if @book.favorited_by?(current_user) %>
+            <td>
+              <%= link_to book_favorites_path(@book), method: :delete, remote: true do %>
+                ♥<%= @book.favorites.count %>
+              <% end %>
+            </td>
+          <% else %>
+            <td>
+              <%= link_to book_favorites_path(@book), method: :post, remote: true do %>
+                ♡<%= @book.favorites.count %>
+              <% end %>
+            </td>
+          <% end %>
+
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
           <% end %>
         </tr>
       </table>
+      <% @book.post_comments.each do |post_comment| %>
+        <div>
+          <%= image_tag post_comment.user.get_profile_image, size:"100x100" %>
+          <%= post_comment.comment %>
+          <% if post_comment.user == current_user %>
+            <%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, class: "btn btn-sm btn-danger" %>
+          <% end %>
+          <br>
+          <%= link_to(post_comment.user) do%>
+            <%= post_comment.user.name %>
+          <% end %>
+        </div>
+
+      <% end %>
+
+      <%= form_with model: [@book,@post_comment] do |f| %>
+        <div class="form-group">
+          <%= f.text_area :comment, rows:'5', placeholder: "コメントをここに", class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "送信" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
