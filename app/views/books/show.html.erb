@@ -24,6 +24,24 @@
 
         　<td id="comments-count"><%= "#{@book.post_comments.count} コメント" %></td>
 
+        　<!--レビュー-->
+        　<td>
+            <div id="score-rate<%= @book.id %>"></div>
+            <script>
+              raty(document.querySelector('#score-rate<%= @book.id %>'),
+              {
+                size: 36,
+                starOff: '<%= asset_path('star-off.png') %>',
+                starOn: '<%= asset_path('star-on.png') %>',
+                starHalf: '<%= asset_path('star-half.png') %>',
+                half: false,
+                readOnly: true,
+                score: <%= @book.score %>
+            });
+            </script>
+        　</td>
+
+
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>

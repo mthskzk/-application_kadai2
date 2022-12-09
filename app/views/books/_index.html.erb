@@ -22,6 +22,23 @@
         </td>
         <!--コメント件数-->
         <td><%= "#{book.post_comments.count} コメント" %></td>
+        <!--レビュー-->
+        <td>
+          <div id="score-rate<%= book.id %>"></div>
+          <script>
+            raty(document.querySelector('#score-rate<%= book.id %>'),
+              {
+                size: 36,
+                starOff: '<%= asset_path('star-off.png') %>',
+                starOn: '<%= asset_path('star-on.png') %>',
+                starHalf: '<%= asset_path('star-half.png') %>',
+                half: false,
+                readOnly: true,
+                score: <%= book.score %>
+            });
+          </script>
+
+        </td>
       </tr>
     <% end %>
   </tbody>
