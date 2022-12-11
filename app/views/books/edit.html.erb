@@ -7,3 +7,15 @@
   		<%= link_to 'Back', books_path, class: "back" %>
   </div>
 </div>
+<script>
+  raty(document.querySelector('#score'),
+  {
+    size: 36,
+    starOff: '<%= asset_path('star-off.png') %>',
+    starOn: '<%= asset_path('star-on.png') %>',
+    starHalf: '<%= asset_path('star-half.png') %>',
+    half: false,
+    readOnly: true,
+    score: <%= @book.score %>
+  });
+</script>

@@ -10,6 +10,10 @@ class Book < ApplicationRecord
     greater_than_or_equal_to: 1
   }
 
+  scope :latest, -> {order(created_at: :desc)}
+  scope :old, -> {order(created_at: :asc)}
+  scope :score_count, -> {order(score: :desc)}
+
   def favorited_by?(user)
     favorites.exists?(user_id: user.id)
   end
